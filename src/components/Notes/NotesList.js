@@ -8,6 +8,8 @@ import LogoutButton from '../Auth/Logout';
 function NotesList() {
   const [notes, setNotes] = useState([]);
   const [search, setSearch] = useState('');
+  const [shownoteform, showNoteform] = useState(false);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,13 +35,15 @@ function NotesList() {
     <div>
       <LogoutButton />
       <h2>Notes</h2> 
-      <AddNote setNotes={setNotes} />
+      <div><button onClick={()=>showNoteform(true)}>Add Note</button></div>
+      {shownoteform ? (<><AddNote setNotes={setNotes} showNoteform={showNoteform} /> </>) : '' }
       {filteredNotes ? (<>
       <input
         type="text"
         placeholder="Search notes..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        
       />
       </>) : ''}
       {filteredNotes && filteredNotes.map(note => (
