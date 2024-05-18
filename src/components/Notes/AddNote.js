@@ -12,7 +12,7 @@ function AddNote ({ setNotes }) {
     }
     try {
       const response = await createNote({ content });
-      setNotes(prevNotes => [...prevNotes, response.data.note]);
+      setNotes(prevNotes => [...prevNotes, response.data]);
       setContent('');
     } catch (error) {
       console.error(error);

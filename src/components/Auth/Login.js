@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 import { loginUser } from '../../api/api';
-import { saveToken } from '../../services/tokenService';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await loginUser({ email, password });
       if (response?.data?.token) {
-        await saveToken(response?.data?.token)
-        navigate('/');
+        login(response?.data?.token);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  return (
+  return (<>
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
       <input
@@ -41,7 +39,10 @@ function Login() {
       />
       <button type="submit">Login</button>
     </form>
-  );
+    <p>
+      Don't have an account? <Link to="/register">Register here</Link>
+    </p>
+  </>);
 }
 
 export default Login;
